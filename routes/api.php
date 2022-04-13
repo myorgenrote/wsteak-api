@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +28,6 @@ Route::post('login', [RegisterController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::resource('menus', MenuController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('orders', OrderController::class);
 });
