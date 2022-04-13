@@ -18,6 +18,7 @@ class Order extends JsonResource
             'id' => $this->id,
             'customer_name' => $this->customer_name,
             'status' => $this->status,
+            'orderDetail' => $this->orderDetails,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];

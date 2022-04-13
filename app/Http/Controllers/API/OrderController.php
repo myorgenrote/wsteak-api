@@ -7,6 +7,8 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Order;
 use Validator;
 use App\Http\Resources\Order as OrderResource;
+use App\Models\Menu;
+use App\Models\OrderDetail;
 
 class OrderController extends BaseController
 {
@@ -40,9 +42,29 @@ class OrderController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $order = Order::create($input);
+        $order = [
+            'customer_name' => $request->customer_name,
+            'status' => $request->status,
+        ];
 
-        return $this->sendResponse(new OrderResource($order), 'Order created successfully.');
+        $saveOrder = Order::create($order);
+
+        foreach ($request->menus as $item) {
+
+            $menuPrice = Menu::find($item['menu_id'])->price;
+            $subtotal = $menuPrice * $item['qty'];
+
+            $orderDetail = [
+                'order_id' => $saveOrder->id,
+                'menu_id' => $item['menu_id'],
+                'qty' => $item['qty'],
+                'subtotal' => $subtotal
+            ];
+
+            OrderDetail::create($orderDetail);
+        }
+
+        return $this->sendResponse(new OrderResource($saveOrder), 'Order created successfully.');
     }
 
     /**

@@ -12,4 +12,9 @@ class Order extends Model
     protected $fillable = [
         'customer_name', 'status'
     ];
+
+    public function orderDetails()
+    {
+        return $this->hasMany('App\Models\OrderDetail');
+    }
 }

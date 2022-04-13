@@ -12,4 +12,9 @@ class OrderDetail extends Model
     protected $fillable = [
         'order_id', 'menu_id', 'qty', 'subtotal'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Order');
+    }
 }
